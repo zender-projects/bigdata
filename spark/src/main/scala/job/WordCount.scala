@@ -1,6 +1,11 @@
 package job
 
 import org.apache.spark.{SparkConf, SparkContext}
+
+/**
+  * Scala WordCount.
+  * @author zhangdong
+  * */
 object WordCount {
 
   def main(args: Array[String]): Unit = {
@@ -15,5 +20,7 @@ object WordCount {
           .map((_, 1))
           .reduceByKey(_ + _)
           .saveAsObjectFile(outPath)
+    sc.stop()
   }
+
 }

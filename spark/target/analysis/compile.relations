@@ -1,0 +1,31 @@
+products:
+   src/main/scala/job/Counter.scala -> target/classes/job/Counter$$anonfun$1.class
+   src/main/scala/job/Counter.scala -> target/classes/job/Counter$$anonfun$2.class
+   src/main/scala/job/Counter.scala -> target/classes/job/Counter$$anonfun$3.class
+   src/main/scala/job/Counter.scala -> target/classes/job/Counter$.class
+   src/main/scala/job/Counter.scala -> target/classes/job/Counter.class
+   src/main/scala/job/WordCount.scala -> target/classes/job/WordCount$$anonfun$main$1.class
+   src/main/scala/job/WordCount.scala -> target/classes/job/WordCount$$anonfun$main$2.class
+   src/main/scala/job/WordCount.scala -> target/classes/job/WordCount$$anonfun$main$3.class
+   src/main/scala/job/WordCount.scala -> target/classes/job/WordCount$.class
+   src/main/scala/job/WordCount.scala -> target/classes/job/WordCount.class
+binary dependencies:
+   src/main/scala/job/Counter.scala -> /Library/Java/JavaVirtualMachines/jdk1.8.0_161.jdk/Contents/Home/jre/lib/rt.jar
+   src/main/scala/job/Counter.scala -> /Users/mac/.m2/repository/org/apache/spark/spark-core_2.11/2.2.1/spark-core_2.11-2.2.1.jar
+   src/main/scala/job/Counter.scala -> /Users/mac/.m2/repository/org/scala-lang/scala-library/2.11.11/scala-library-2.11.11.jar
+   src/main/scala/job/WordCount.scala -> /Library/Java/JavaVirtualMachines/jdk1.8.0_161.jdk/Contents/Home/jre/lib/rt.jar
+   src/main/scala/job/WordCount.scala -> /Users/mac/.m2/repository/org/apache/spark/spark-core_2.11/2.2.1/spark-core_2.11-2.2.1.jar
+   src/main/scala/job/WordCount.scala -> /Users/mac/.m2/repository/org/scala-lang/scala-library/2.11.11/scala-library-2.11.11.jar
+source dependencies:
+external dependencies:
+class names:
+   src/main/scala/job/Counter.scala -> job.Counter
+   src/main/scala/job/Counter.scala -> job.Counter$
+   src/main/scala/job/Counter.scala -> job.Counter$$anonfun$1
+   src/main/scala/job/Counter.scala -> job.Counter$$anonfun$2
+   src/main/scala/job/Counter.scala -> job.Counter$$anonfun$3
+   src/main/scala/job/WordCount.scala -> job.WordCount
+   src/main/scala/job/WordCount.scala -> job.WordCount$
+   src/main/scala/job/WordCount.scala -> job.WordCount$$anonfun$main$1
+   src/main/scala/job/WordCount.scala -> job.WordCount$$anonfun$main$2
+   src/main/scala/job/WordCount.scala -> job.WordCount$$anonfun$main$3
