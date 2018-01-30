@@ -54,8 +54,7 @@ object TransformOperations {
       val input8 = sparkContext.parallelize(List("a","b","c"))
       val input9 = sparkContext.parallelize(List("a", "c"))
       val result7 = input8.subtract(input9)
-      print(result7.collect().mkString(","))   //b  
-
+      print(result7.collect().mkString(","))   //b
 
 
   }

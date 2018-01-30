@@ -20,6 +20,10 @@ object WordCount {
           .map((_, 1))
           .reduceByKey(_ + _)
           .saveAsObjectFile(outPath)
+
+
+    val w = sc.textFile(inPath).flatMap(_.split("\\|")).countByValue()
+    println(w)  //Map[Strin, Long]
     sc.stop()
   }
 
