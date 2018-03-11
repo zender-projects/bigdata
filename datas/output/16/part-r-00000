@@ -1,0 +1,3 @@
+InfoBean(orderId=1002, orderDate=20150710, productId=P0001, productAmount=3, productName=null, productCategoryId=null, productPrice=null, flag=0)
+InfoBean(orderId=1001, orderDate=20150701, productId=P0001, productAmount=2, productName=null, productCategoryId=null, productPrice=null, flag=0)
+InfoBean(orderId=1003, orderDate=20150710, productId=P0002, productAmount=4, productName=null, productCategoryId=null, productPrice=null, flag=0)
