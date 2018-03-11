@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * 流量Bean
  * */
-public class FlowBean implements Writable{
+public class FlowBean implements Writable, Comparable<FlowBean>{
 
     private long upFlow;
     private long downFlow;
@@ -33,12 +33,22 @@ public class FlowBean implements Writable{
         return upFlow;
     }
 
+    public long getSumFlow() {
+        return sumFlow;
+    }
+
     public void setDownFlow(long downFlow) {
         this.downFlow = downFlow;
     }
 
+
     public void setUpFlow(long upFlow) {
         this.upFlow = upFlow;
+    }
+
+
+    public void setSumFlow(long sumFlow) {
+        this.sumFlow = sumFlow;
     }
 
     @Override
@@ -59,4 +69,12 @@ public class FlowBean implements Writable{
     public String toString() {
         return upFlow + "\t" + downFlow + "\t" + sumFlow;
     }
+
+
+    @Override
+    public int compareTo(FlowBean o) {
+        //倒序
+        return this.sumFlow > o.getDownFlow() ? -1 : 1;
+    }
+
 }

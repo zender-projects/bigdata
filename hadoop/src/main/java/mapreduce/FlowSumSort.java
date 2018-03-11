@@ -9,13 +9,13 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.CombineFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.partition.HashPartitioner;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
-import org.apache.hadoop.yarn.webapp.hamlet.HamletSpec;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -45,13 +45,17 @@ import java.io.IOException;
  1363157985066 	13726238888	00-FD-07-A4-72-B8:CMCC	120.196.100.82	i02.c.aliimg.com		24	27	2481	24681	200
  1363157993055 	13560436666	C4-17-FE-BA-DE-D9:CMCC	120.196.100.99			18	15	1116	954	200
 
- 1.统计每个用户（手机号）总的上行流量和下行流量
 
+ 1.统计每个用户的对应的总流量并按流量倒序排列
+
+ 1)汇总
+ 2)排序
 
  * */
 
+public class FlowSumSort extends Configured implements org.apache.hadoop.util.Tool{
 
-public class FlowSum extends Configured implements Tool{
+
 
 
     public static class FlowSumMapper extends Mapper<LongWritable, Text, Text, FlowBean> {
@@ -60,12 +64,10 @@ public class FlowSum extends Configured implements Tool{
             String line = value.toString();
             String[] fields = line.split("\t");
             //过滤数据
-            /*if(fields.length != 9 ){
-                return;
-            }*/
-            if(fields.length < 9) {
+            if(fields.length != 9 ){
                 return;
             }
+
             String phone = fields[1];
             Long upFlow = Long.parseLong(fields[fields.length - 3]);
             Long downFlow = Long.parseLong(fields[fields.length - 2]);
@@ -77,7 +79,9 @@ public class FlowSum extends Configured implements Tool{
     }
 
 
-    public static class FlowSumReducer extends Reducer<Text, FlowBean, Text, Text>{
+
+
+    public static class FlowSumReducer extends Reducer<Text, FlowBean, Text, Text> {
         @Override
         protected void reduce(Text key, Iterable<FlowBean> values, Context context) throws IOException, InterruptedException {
             long sumUpFlow = 0l;
@@ -92,39 +96,102 @@ public class FlowSum extends Configured implements Tool{
         }
     }
 
+
+    //获取到上一个汇总统计程序到输出   13888888888  343434   232323  23243433434
+    public static class FlowSumSortMapper extends Mapper<LongWritable, Text, FlowBean, Text> {
+
+        FlowBean flowBean = new FlowBean();
+        Text phoen = new Text();
+
+        @Override
+        protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
+            String line = value.toString();
+            String[] fields = line.split("\t");
+            String phone = fields[0];
+            long upFlow = Long.parseLong(fields[1]);
+            long downFlow = Long.parseLong(fields[2]);
+            //long totalFlow = Long.parseLong(fields[3]);
+
+            flowBean.setUpFlow(upFlow);
+            flowBean.setDownFlow(downFlow);
+            phoen.set(phone);
+            context.write(flowBean, phoen);
+        }
+    }
+
+    public static class FlowSumSortReducer extends Reducer<FlowBean, Text, Text, FlowBean>{
+        @Override
+        protected void reduce(FlowBean key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+            //直接输出
+            for(Text phone : values){
+                context.write(phone, key);
+            }
+        }
+    }
+
+
     @Override
     public int run(String[] strings) throws Exception {
 
+
         Configuration configuration = getConf();
-        Job job = Job.getInstance(configuration);
+        Job sumJob = Job.getInstance(configuration);
 
-        //本地运行
-        configuration.set("mapreduce.framework.name", "local");
-        configuration.set("fs.defaultFS", "file:///");
+        sumJob.setJarByClass(FlowSumSort.class);
 
-        job.setJarByClass(FlowSum.class);
+        sumJob.setMapOutputKeyClass(FlowSumMapper.class);
+        sumJob.setReducerClass(FlowSumReducer.class);
 
-        job.setMapperClass(FlowSumMapper.class);
-        job.setReducerClass(FlowSumReducer.class);
+        sumJob.setMapOutputKeyClass(Text.class);
+        sumJob.setMapOutputKeyClass(FlowBean.class);
 
-        job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(FlowBean.class);
+        sumJob.setOutputValueClass(Text.class);
+        sumJob.setOutputValueClass(Text.class);
 
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(Text.class);
+        FileInputFormat.addInputPath(sumJob, new Path(strings[0]));
+        FileOutputFormat.setOutputPath(sumJob, new Path(strings[1]));
 
-        FileInputFormat.addInputPath(job, new Path(strings[0]));
-        FileOutputFormat.setOutputPath(job, new Path(strings[1]));
+        boolean stepJobCompleted = sumJob.waitForCompletion(true);
 
-        return job.waitForCompletion(true) ?  0 : 1;
+        //进行第二步
+        //if(stepJobCompleted) {
+            Job sortJob = Job.getInstance(configuration);
+
+            sortJob.setJarByClass(FlowSumSort.class);
+
+            sortJob.setMapperClass(FlowSumSortMapper.class);
+            sortJob.setReducerClass(FlowSumSortReducer.class);
+
+            sortJob.setMapOutputKeyClass(FlowBean.class);
+            sortJob.setMapOutputKeyClass(Text.class);
+
+            sortJob.setOutputKeyClass(Text.class);
+            sortJob.setOutputValueClass(FlowBean.class);
+
+            //CombineFileInputFormat解决大小小文件产生大量maptask的问题
+            //将多个小文件从逻辑上划分到一个分片
+            /*sortJob.setInputFormatClass(CombineFileInputFormat.class);
+            CombineFileInputFormat.setMaxInputSplitSize(sortJob, 4194304); //4mb
+            CombineFileInputFormat.setMinInputSplitSize(sortJob, 2097152); //2mb*/
+
+
+            FileInputFormat.addInputPath(sortJob, new Path(strings[1]));
+            FileOutputFormat.setOutputPath(sortJob, new Path(strings[2]));
+
+            return  sortJob.waitForCompletion(true) ? 0 : 1;
+    //    }
+
+        //return 0;
+       // return 0;
     }
 
-    public static void main(String args[]) throws Exception {
-        //HashPartitioner
+
+    public static void main(String[] args) throws Exception {
         args = new String[2];
         args[0] = "/Users/mac/IdeaProjects/bigdata/datas/input/flow";
-        args[1] = "/Users/mac/IdeaProjects/bigdata/datas/output/7";
-        int result = ToolRunner.run(new FlowSum(), args);
+        args[1] = "/Users/mac/IdeaProjects/bigdata/datas/output/11";
+        args[2] = "/Users/mac/IdeaProjects/bigdata/datas/output/12";
+        int result = ToolRunner.run(new FlowSumSort(), args);
         System.exit(result);
     }
 }
