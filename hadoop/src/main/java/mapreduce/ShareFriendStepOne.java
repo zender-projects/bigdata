@@ -63,7 +63,7 @@ public class ShareFriendStepOne extends Configured implements Tool{
         }
     }
 
-    //输入 A - H  C - H  D-H E-H O-H  输出：每个人都是哪些人都好友
+    //输入 A - H  C - H  D-H E-H O-H  输出：每个人都是哪些人的好友
     public static class ShareFriendStepOneReducer extends Reducer<Text, Text, Text, Text> {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
