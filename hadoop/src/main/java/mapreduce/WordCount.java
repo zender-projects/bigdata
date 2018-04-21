@@ -59,8 +59,8 @@ public class WordCount {
         /*configuration.set("mapreduce.framework.name", "yarn");
         configuration.set("yarn.resourcemanager.hostname", "yarn-host");*/
 
-        configuration.set("mapreduce.framework.name", "local");
-        configuration.set("fs.defaultFS", "file:///");
+        /*configuration.set("mapreduce.framework.name", "local");
+        configuration.set("fs.defaultFS", "file:///");*/
 
         job.setJarByClass(WordCount.class);
 

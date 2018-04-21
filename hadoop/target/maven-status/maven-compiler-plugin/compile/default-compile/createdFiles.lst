@@ -1,4 +1,4 @@
-mapreduce/WordCount.class
-hdfs/HDFSJavaClient.class
-mapreduce/WordCount$WCMapper.class
 mapreduce/WordCount$WCReducer.class
+hdfs/HDFSJavaClient.class
+mapreduce/WordCount.class
+mapreduce/WordCount$WCMapper.class
