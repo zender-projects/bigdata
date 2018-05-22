@@ -30,6 +30,7 @@ public class FilterBolt extends BaseBasicBolt{
         }
 
         //定时更新规则信息
+        MonitorHandler.scheduleLoad();
     }
 
     @Override

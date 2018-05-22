@@ -1,12 +1,14 @@
 package dao;
 
 import domain.App;
+import domain.Record;
 import domain.Rule;
 import domain.User;
 import lombok.extern.java.Log;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.Date;
 import java.util.List;
 
 @Log
@@ -50,5 +52,16 @@ public class LogMonitorDao {
     }
 
 
+    /**
+     * 插入触发告警到Record
+     * @param record
+     * */
+    public void saveRecord(Record record) {
+        String sql = "INSERT INTO `log_monitor`.`log_monitor_rule_record`" +
+                " (`appId`,`ruleId`,`isEmail`,`isPhone`,`isColse`,`noticeInfo`,`updataDate`) " +
+                "VALUES ( ?,?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, record.getAppId(), record.getRuleId(), record.getIsEmail(),
+                record.getIsPhone(), 0, record.getContext(), new Date());
+    }
 
 }

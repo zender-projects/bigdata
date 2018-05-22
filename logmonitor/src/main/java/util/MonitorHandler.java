@@ -1,10 +1,7 @@
 package util;
 
 import dao.LogMonitorDao;
-import domain.App;
-import domain.Message;
-import domain.Rule;
-import domain.User;
+import domain.*;
 import lombok.extern.java.Log;
 import org.apache.commons.lang.StringUtils;
 
@@ -226,6 +223,54 @@ public class MonitorHandler {
         }
         return map;
     }
+
+
+    /**
+     * 根据appid获取当前app的所有负责人列表
+     * @param appId
+     * @return List<User>
+     * */
+    public static List<User> getUsersByAppid(String appId){
+        return userMap.get(appId);
+    }
+
+
+    /**
+     * 告警模块，用来发送邮件和短信
+     * @param appId
+     * @param message
+     * */
+    public static void notify(String appId, Message message) {
+        List<User> users = getUsersByAppid(appId);
+        if(senMail(appId, users, message)) {
+            //发送邮件成功
+            message.setIsEmail(1);
+        }
+        if(sendSMS(appId, users, message)) {
+            //发送短信成功
+            message.setIsPhone(1);
+        }
+    }
+
+    private static boolean senMail(String appId,
+                                           List<User> users, Message message) {
+        return true;
+    }
+
+    private static boolean sendSMS(String appId,
+                                   List<User> users, Message message) {
+        return true;
+    }
+
+
+    /**
+     * 保存触发规则到信息，存入到mysql
+     * @param record
+     * */
+    public static void save(Record record) {
+        new LogMonitorDao().saveRecord(record);
+    }
+
 
     private static User queryUserById(String userId) {
         for(User user : userList) {
