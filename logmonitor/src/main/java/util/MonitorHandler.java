@@ -3,6 +3,8 @@ package util;
 import dao.LogMonitorDao;
 import domain.*;
 import lombok.extern.java.Log;
+import mail.MailInfo;
+import mail.MailSender;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
@@ -254,6 +256,25 @@ public class MonitorHandler {
 
     private static boolean senMail(String appId,
                                            List<User> users, Message message) {
+
+        List<String> receiver = new ArrayList<>();
+        for(User user : userList) {
+            receiver.add(user.getEmail());
+        }
+        for (App app : appList) {
+            if((app.getId() == Integer.parseInt(appId)) {
+                message.setAppName(app.getName());
+                break;
+            }
+        }
+        if(receiver.size() >= 1) {
+            String date = DateUtil.getDateTime();
+            String content = "系统【" + message.getAppName() +"】在" + date + " 触发规则 " + message.getRuleId() +
+                    ", 过滤关键字为："  + message.getKeyword() + " 错误内容：" + message.getContent();
+            MailInfo mailInfo = new MailInfo("系统运行日志监控", content, receiver, null);
+            return MailSender.sendMail(mailInfo);
+        }
+
         return true;
     }
 
