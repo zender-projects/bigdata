@@ -262,7 +262,7 @@ public class MonitorHandler {
             receiver.add(user.getEmail());
         }
         for (App app : appList) {
-            if((app.getId() == Integer.parseInt(appId)) {
+            if((app.getId() == Integer.parseInt(appId))){
                 message.setAppName(app.getName());
                 break;
             }
