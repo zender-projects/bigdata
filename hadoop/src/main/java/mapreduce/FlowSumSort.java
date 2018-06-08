@@ -11,6 +11,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.CombineFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
@@ -177,7 +178,7 @@ public class FlowSumSort extends Configured implements org.apache.hadoop.util.To
 
             FileInputFormat.addInputPath(sortJob, new Path(strings[1]));
             FileOutputFormat.setOutputPath(sortJob, new Path(strings[2]));
-
+        TextInputFormat
             return  sortJob.waitForCompletion(true) ? 0 : 1;
     //    }
 
