@@ -15,3 +15,10 @@ HDFS Path:
 
 #待处理，已验证的数据目录(valid:true)
 /data/weblog/preprocess/valid_output
+
+
+
+#pageview输入目录
+/data/weblog/preprocess/valid_output
+#pageview 输出目录
+/data/weblog/preprocess/click_pv_out

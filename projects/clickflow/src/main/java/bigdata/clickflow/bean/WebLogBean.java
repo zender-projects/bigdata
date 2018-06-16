@@ -1,7 +1,9 @@
 package bigdata.clickflow.bean;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.hadoop.io.Writable;
 
 import java.io.DataInput;
@@ -16,6 +18,8 @@ import java.util.Objects;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class WebLogBean implements Writable{
 
     private boolean valid;         //判断数据是否合法

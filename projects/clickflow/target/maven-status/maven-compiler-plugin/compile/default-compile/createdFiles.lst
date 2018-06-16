@@ -1,8 +1,13 @@
+bigdata/clickflow/mrjobs/ClickFlowPvJob$PVReducer.class
 bigdata/clickflow/mrjobs/WebLogPreProcessJob.class
 bigdata/clickflow/mrjobs/WebLogPreValidProcessJob$WebLogPreValidProcessMapper.class
+bigdata/clickflow/mrjobs/WebLogPreProcessJob$WebLogPreProcessMapper.class
+bigdata/clickflow/mrjobs/ClickFlowPvJob$PVCounter.class
+bigdata/clickflow/mrjobs/ClickFlowPvJob$PVReducer$1.class
+bigdata/clickflow/mrjobs/ClickFlowPvJob.class
 bigdata/clickflow/mrjobs/WebLogPreValidProcessJob$ValidFiltCounter.class
 bigdata/clickflow/mrjobs/WebLogPreProcessJob$PreProcessCounter.class
-bigdata/clickflow/mrjobs/WebLogPreProcessJob$WebLogPreProcessMapper.class
+bigdata/clickflow/mrjobs/ClickFlowPvJob$PVMapper.class
 bigdata/clickflow/bean/WebLogBean.class
 bigdata/clickflow/utils/WebLogParseUtil.class
 bigdata/clickflow/mrjobs/WebLogPreValidProcessJob.class
