@@ -23,10 +23,12 @@ log_pre_input=/data/weblog/preprocess/input
 #输出目录
 log_pre_output=/data/weblog/preprocess/output
 log_pre_valid_output=/data/weblog/preprocess/valid_output
+log_pre_detail_output=/data/weblog/preprocess/detail_output
 
 #hadoop job class name
 preprocess_class=bigdata.clickflow.mrjobs.WebLogPreProcessJob
 prevalid_class=bigdata.clickflow.mrjobs.WebLogPreValidProcessJob
+detailprocess_class=bigdata.clickflow.mrjobs.ClickFlowDetailJob
 
 #获取前一天
 #pre_day=`date -d'-1 day' +%Y-%m-%d`
@@ -54,4 +56,11 @@ if[ $? -eq 0 ];then
 fi
 
 echo "step2 process result: $?"
+
+if [ $? -eq 0 ];then
+    echo "running hadoop jar $jobpath/$jarname $detailprocess_class $log_pre_valid_output/$pre_day $log_pre_detail_output/$pre_day"
+    hadoop jar $jobpath/$jarname $detailprocess_class $log_pre_valid_output/$pre_day $log_pre_detail_output/$pre_day
+fi
+
+echo "step3 process result: $?"
 echo "pre process complete!"

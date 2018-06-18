@@ -88,7 +88,7 @@ public class WebLogParseUtil {
      * @return String
      * */
     private static String formatDate(String time_local) {
-        SimpleDateFormat originFormater = new SimpleDateFormat("dd/MM/yyyy:HH:mm:ss", Locale.US);
+        SimpleDateFormat originFormater = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss", Locale.US);
         SimpleDateFormat targetFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         try{
             return targetFormater.format(originFormater.parse(time_local));

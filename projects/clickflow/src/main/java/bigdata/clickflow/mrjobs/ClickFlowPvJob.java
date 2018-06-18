@@ -1,5 +1,6 @@
 package bigdata.clickflow.mrjobs;
 
+import bigdata.clickflow.bean.PVBean;
 import bigdata.clickflow.bean.WebLogBean;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.hadoop.conf.Configuration;
@@ -112,6 +113,7 @@ public class ClickFlowPvJob extends Configured implements Tool
                     //如果只有一条数据，则直接输出
                     if(beans.size() == 1) {
                         //设置默认停留时间为60s
+                        /*
                         value.set(
                                 session + "\001" +
                                 key.toString() + "\001" +
@@ -125,6 +127,21 @@ public class ClickFlowPvJob extends Configured implements Tool
                                 bean.getBody_bytes_sent() + "\001"  +
                                 bean.getStatus()
                         );
+                        */
+
+                        PVBean pvBean = PVBean.builder().session(session)
+                                                        .remote_addr(key.toString())
+                                .remote_user(bean.getRemote_user())
+                                .time_local(bean.getTime_local())
+                                .request(bean.getRequest())
+                                .visit_step(step)
+                                .page_staylong(60 + "")
+                                .http_referer(bean.getHttp_referer())
+                                .http_user_agent(bean.getHttp_user_agent())
+                                .body_bytes_sent(bean.getBody_bytes_sent())
+                                .status(bean.getStatus()).build();
+
+                        value.set(pvBean.toString());
 
                         context.write(NullWritable.get(), value);
                         session = UUID.randomUUID().toString();
@@ -141,6 +158,7 @@ public class ClickFlowPvJob extends Configured implements Tool
 
                     //如果本地-上次时间差<30分钟，则输出前一次的页面访问信息
                     if(timeDiff < 30 * 60 * 1000) {
+                        /*
                         value.set(
                                 session + "\001" +
                                         key.toString() + "\001" +
@@ -154,11 +172,27 @@ public class ClickFlowPvJob extends Configured implements Tool
                                         beans.get(i - 1).getBody_bytes_sent() + "\001"  +
                                         beans.get(i - 1).getStatus()
                         );
+                        */
+
+                        PVBean pvBean = PVBean.builder().session(session)
+                                .remote_addr(key.toString())
+                                .remote_user(beans.get(i - 1).getRemote_user())
+                                        .time_local(beans.get(i - 1).getTime_local())
+                                .request(beans.get(i - 1).getRequest())
+                                .visit_step(step)
+                                .page_staylong((timeDiff / 1000)+ "")
+                                .http_referer(beans.get(i - 1).getHttp_referer())
+                                .http_user_agent(beans.get(i - 1).getHttp_user_agent())
+                                .body_bytes_sent(beans.get(i - 1).getBody_bytes_sent())
+                                .status(beans.get(i - 1).getStatus()).build();
+
+                        value.set(pvBean.toString());
                         context.write(NullWritable.get(), value);
                         step ++;
                     }else {
                         //如果本次-上次时间差>30分钟，则输出前一次访问信息，并且将step重置，
                         //以分隔为新的visit
+                        /*
                         value.set(
                                 session + "\001" +
                                         key.toString() + "\001" +
@@ -171,7 +205,22 @@ public class ClickFlowPvJob extends Configured implements Tool
                                         beans.get(i - 1).getHttp_user_agent() + "\001" +
                                         beans.get(i - 1).getBody_bytes_sent() + "\001"  +
                                         beans.get(i - 1).getStatus()
-                        );
+                        );*/
+
+                        PVBean pvBean = PVBean.builder().session(session)
+                                .remote_addr(key.toString())
+                                .remote_user(beans.get(i - 1).getRemote_user())
+                                .time_local(beans.get(i - 1).getTime_local())
+                                .request(beans.get(i - 1).getRequest())
+                                .visit_step(step)
+                                .page_staylong(60 + "")
+                                .http_referer(beans.get(i - 1).getHttp_referer())
+                                .http_user_agent(beans.get(i - 1).getHttp_user_agent())
+                                .body_bytes_sent(beans.get(i - 1).getBody_bytes_sent())
+                                .status(beans.get(i - 1).getStatus()).build();
+
+                        value.set(pvBean.toString());
+
                         context.write(NullWritable.get(), value);
                         step = 1;
                         session = UUID.randomUUID().toString();
@@ -180,7 +229,7 @@ public class ClickFlowPvJob extends Configured implements Tool
 
                     //如果是最后一条，则将本条数据输出
                     if(i == beans.size() - 1) {
-                        value.set(
+                        /*value.set(
                                 session + "\001" +
                                 key.toString() + "\001" +
                                 bean.getRemote_user() + "\001" +
@@ -193,6 +242,25 @@ public class ClickFlowPvJob extends Configured implements Tool
                                         bean.getBody_bytes_sent() + "\001" +
                                 bean.getStatus()
                         );
+                        */
+
+
+                        PVBean pvBean = PVBean.builder().session(session)
+                                .remote_addr(key.toString())
+                                .remote_user(bean.getRemote_user())
+                                .time_local(bean.getTime_local())
+                                .request(bean.getRequest())
+                                .visit_step(step)
+                                .page_staylong(60 + "")
+                                .http_referer(bean.getHttp_referer())
+                                .http_user_agent(bean.getHttp_user_agent())
+                                .body_bytes_sent(bean.getBody_bytes_sent())
+                                .status(bean.getStatus()).build();
+
+                        value.set(pvBean.toString());
+
+
+
                         context.write(NullWritable.get(), value);
                     }
 

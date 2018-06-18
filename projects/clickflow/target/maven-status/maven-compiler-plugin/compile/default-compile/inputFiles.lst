@@ -1,3 +1,10 @@
+/Users/mac/IdeaProjects/bigdata/projects/clickflow/src/main/java/bigdata/clickflow/bean/WebLogDetailBean.java
+/Users/mac/IdeaProjects/bigdata/projects/clickflow/src/main/java/bigdata/clickflow/mrjobs/ClickFlowPvJob.java
 /Users/mac/IdeaProjects/bigdata/projects/clickflow/src/main/java/bigdata/clickflow/utils/WebLogParseUtil.java
 /Users/mac/IdeaProjects/bigdata/projects/clickflow/src/main/java/bigdata/clickflow/mrjobs/WebLogPreProcessJob.java
+/Users/mac/IdeaProjects/bigdata/projects/clickflow/src/main/java/bigdata/clickflow/mrjobs/ClickFlowDetailJob.java
+/Users/mac/IdeaProjects/bigdata/projects/clickflow/src/main/java/bigdata/clickflow/bean/UVBean.java
 /Users/mac/IdeaProjects/bigdata/projects/clickflow/src/main/java/bigdata/clickflow/bean/WebLogBean.java
+/Users/mac/IdeaProjects/bigdata/projects/clickflow/src/main/java/bigdata/clickflow/mrjobs/WebLogPreValidProcessJob.java
+/Users/mac/IdeaProjects/bigdata/projects/clickflow/src/main/java/bigdata/clickflow/bean/PVBean.java
+/Users/mac/IdeaProjects/bigdata/projects/clickflow/src/main/java/bigdata/clickflow/mrjobs/ClickFlowUvJob.java
