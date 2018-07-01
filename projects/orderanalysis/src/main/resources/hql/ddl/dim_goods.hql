@@ -1,3 +1,4 @@
+#商品维度表
 drop table if exists `dim_goods`;
 CREATE TABLE `dim_goods` (
   `GOODS_ID` int COMMENT '商品ID',

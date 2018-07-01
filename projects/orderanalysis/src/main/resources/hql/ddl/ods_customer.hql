@@ -1,3 +1,5 @@
+#用户表
+drop table if exists `ods_customer`;
 CREATE TABLE `ods_customer` (
   `CUST_ID` int COMMENT '客户ID',
   `MOBILE` varchar(15)  COMMENT '手机号',

@@ -1,4 +1,4 @@
-create table ods.ods_order
+    create table bigdata_orderanalysis.ods_order
 (
    ORDER_ID             int comment '订单ID',
    ORDER_NO             varchar(30)  comment '订单编号（唯一字段），前缀字符表示订单来源：a，Andriod；b，微博；c，WEB；e，饿了么；i，Iphone；m，Mobile；x，微信； z，中粮我买网；l，其它。 接着3位数字代表订单城市编号；接着字符z与后面的真正订单编号分隔。这套机制从2014年12月开始实施。',

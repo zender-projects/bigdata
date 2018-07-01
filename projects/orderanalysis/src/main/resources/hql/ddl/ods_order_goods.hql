@@ -1,4 +1,4 @@
-CREATE TABLE `ods_order_goods` (
+CREATE TABLE `bigdata_orderanalysis.ods_order_goods` (
   `ORDER_DATE` string  COMMENT '下单日期',
   `order_id` int  COMMENT '订单ID',
   `goods_id` int  COMMENT '商品ID',
