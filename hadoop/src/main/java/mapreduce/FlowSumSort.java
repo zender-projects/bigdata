@@ -178,7 +178,7 @@ public class FlowSumSort extends Configured implements org.apache.hadoop.util.To
 
             FileInputFormat.addInputPath(sortJob, new Path(strings[1]));
             FileOutputFormat.setOutputPath(sortJob, new Path(strings[2]));
-        TextInputFormat
+        //TextInputFormat
             return  sortJob.waitForCompletion(true) ? 0 : 1;
     //    }
 
