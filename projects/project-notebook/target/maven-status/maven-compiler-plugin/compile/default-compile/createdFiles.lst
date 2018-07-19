@@ -1,0 +1,10 @@
+mrjob/HBaseReducer.class
+login/dao/TicketDAO.class
+common/model/BaseModel.class
+mrjob/HBaseMapReduceJob.class
+login/dao/UserDAO.class
+mrjob/HBaseMapper.class
+login/model/LoginTicket.class
+common/constant/Flag.class
+login/web/component/HostHolder.class
+login/model/User.class

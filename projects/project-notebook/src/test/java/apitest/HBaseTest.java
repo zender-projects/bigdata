@@ -55,6 +55,36 @@ public class HBaseTest {
         admin.createTable(desc);
     }
 
+    @Test
+    public void createTableWord() throws Exception {
+        HBaseAdmin admin = new HBaseAdmin(config);
+        //表名
+        TableName tableName = TableName.valueOf("word");
+
+        HTableDescriptor desc = new HTableDescriptor(tableName);
+
+        //创建列族
+        HColumnDescriptor family1 = new HColumnDescriptor("content");
+        desc.addFamily(family1);
+
+        admin.createTable(desc);
+    }
+
+    @Test
+    public void createTableStat() throws Exception {
+        HBaseAdmin admin = new HBaseAdmin(config);
+        //表名
+        TableName tableName = TableName.valueOf("stat");
+
+        HTableDescriptor desc = new HTableDescriptor(tableName);
+
+        //创建列族
+        HColumnDescriptor family1 = new HColumnDescriptor("content");
+        desc.addFamily(family1);
+
+        admin.createTable(desc);
+    }
+
     /**
      * 删除表.
      *
@@ -64,6 +94,13 @@ public class HBaseTest {
     public void deleteTable() throws Exception {
         HBaseAdmin admin = new HBaseAdmin(config);
         admin.disableTable("testtable".getBytes());
+        admin.deleteTable("testtable".getBytes());
+    }
+
+    @Test
+    public void deleteTableWords() throws Exception {
+        HBaseAdmin admin = new HBaseAdmin(config);
+        admin.disableTable("word".getBytes());
         admin.deleteTable("testtable".getBytes());
     }
 
@@ -85,6 +122,21 @@ public class HBaseTest {
 
             put.addColumn("info2".getBytes(), "address".getBytes(), "peking".getBytes());
             put.addColumn("info2".getBytes(), "position".getBytes(), "changping".getBytes());
+            puts.add(put);
+        }
+        table.put(puts);
+        table.close();
+    }
+
+    @Test
+    public void insertDataWords() throws Exception {
+        Table table = connection.getTable(TableName.valueOf("word"));
+        table.setWriteBufferSize(534534534);
+        String[] strs = {"this is first line", "this is second line"};
+        List<Put> puts = new ArrayList<>();
+        for(int i = 20;i <= 30;i ++) {
+            Put put = new Put(Bytes.toBytes("word" + i));
+            put.addColumn("content".getBytes(), "info".getBytes(), Bytes.toBytes(strs[i % 2]));
             puts.add(put);
         }
         table.put(puts);
