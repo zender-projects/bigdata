@@ -84,6 +84,40 @@ object SparkOperations {
     rdd5.reduceByKey((x, y) => x + y).collect()
     // -> Map
     rdd5.reduceByKeyLocally((x, y) => x + y)
+
+    var rdd6 = sc.makeRDD(Array(("A", "1"), ("B", "2"), ("C", "3")), 2)
+    var rdd7 = sc.makeRDD(Array(("A", "a"), ("C", "c"), ("D", "d")), 2)
+
+    rdd6.join(rdd7).collect()
+    rdd6.leftOuterJoin(rdd7).collect()
+
+    rdd6.rightOuterJoin(rdd7).collect()
+
+    // action
+    var rdd8 = sc.makeRDD(Array(("A", "1"), ("B", "2"), ("C", "3")), 2)
+
+    rdd8.first()
+
+    var rdd9 = sc.makeRDD(1 to 10, 2)
+
+    rdd9.reduce(_+_)
+
+    var rdd10 = sc.makeRDD(Array(("A",0), ("A", 2), ("B", 1), ("B", 2), ("C", 1)))
+
+    rdd10.reduce((x, y) => {
+      (x._1 + y._1, x._2 + y._2)
+    })
+
+
+
+
+    //save action
+
+    var rdd11 = sc.makeRDD(1 to 10, 2)
+
+    rdd11.saveAsTextFile("/chapte3/testfile")
+
+    rdd11.saveAsObjectFile("/chapte3/objectfile")
   }
 
 }
